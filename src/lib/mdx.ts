@@ -46,17 +46,15 @@ export async function getPostBySlug(slug: string) {
     // This will work both in development and production
     // const url = `/api/blog/${slug}`;
 
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NODE_ENV === 'development' 
-        ? 'http://localhost:3000' 
-        : '';
-    const url = baseUrl ? `${baseUrl}/api/blog/${slug}` : `/api/blog/${slug}`;
+    // Simplified URL construction that works in all environments
+    // Using relative URL is more reliable across environments
+    const url = `/api/blog/${slug}`;
     
     // Use absolute URL for fetch
     const response = await fetch(url, { 
       next: { revalidate: 60 },
-      credentials: 'include',
+      // Remove credentials which might cause auth issues
+      // credentials: 'include',
     });
     
     if (!response.ok) {
