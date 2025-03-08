@@ -4,6 +4,12 @@ import { getPostBySlug, getAllPosts } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
 
+export type paramsType = Promise<{ slug: string }>;
+
+type Props = {
+  params: paramsType;
+};
+
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map(post => ({
@@ -12,10 +18,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  context: { params: { slug: string } }
+  { params }: Props
 ): Promise<Metadata> {
-  const parameters = await context.params;
-  const post = await getPostBySlug(parameters.slug);
+  const pms = await params;
+  const post = await getPostBySlug(pms.slug);
   
   if (!post) {
     return {
@@ -30,9 +36,9 @@ export async function generateMetadata(
 }
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

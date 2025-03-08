@@ -5,14 +5,29 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 
+export type paramsType = Promise<{ slug: string }>;
+
+type Props = {
+  params: paramsType;
+};
+
 // This is a server-side API route, so we can use fs here
+// @ts-ignore
 export async function GET(
+  // @ts-ignore
   request: NextRequest,
-  context: { params: { slug: string } }
+  // @ts-ignore
+  // { params }: { params: tParams }
+  { params }: Props
 ) {
-  // Ensure params is properly awaited
-  const parameters = await context.params;
-  const { slug } = parameters;
+  // @ts-ignore
+  // Get the slug from params
+  // @ts-ignore
+  // const params = await context.params;
+  // @ts-ignore
+  // const pms =  context.params;
+  const {slug} = await params;
+  // @ts-ignore
   const filePath = path.join(process.cwd(), 'src/content/blog', `${slug}.mdx`);
   
   try {
@@ -66,4 +81,4 @@ export async function GET(
     console.error(`Error reading post ${slug}:`, error);
     return NextResponse.json({ error: 'Post not found' }, { status: 404 });
   }
-} 
+}
