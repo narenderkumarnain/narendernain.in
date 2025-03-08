@@ -1,0 +1,149 @@
+---
+title: "Getting Started with Next.js and TypeScript"
+date: "2024-03-08"
+excerpt: "An introduction to building modern web applications with Next.js and TypeScript."
+tags: ["Next.js", "TypeScript", "Web Development", "React"]
+---
+
+# Getting Started with Next.js and TypeScript
+
+Next.js has become one of the most popular frameworks for building React applications. Combined with TypeScript, it provides a powerful and type-safe development experience. In this post, I'll walk you through setting up a Next.js project with TypeScript and explain some of the key features that make Next.js a great choice for modern web development.
+
+## Why Next.js?
+
+Next.js offers several advantages over a standard React application:
+
+1. **Server-Side Rendering (SSR)** - Next.js can render your pages on the server, which improves performance and SEO.
+2. **Static Site Generation (SSG)** - You can pre-render pages at build time, resulting in fast page loads and better user experience.
+3. **File-based Routing** - Next.js uses a file-based routing system, making it intuitive to create new pages.
+4. **API Routes** - You can create API endpoints within your Next.js application.
+5. **Built-in CSS and Sass Support** - Next.js has built-in support for CSS and Sass, making styling your application easier.
+
+## Setting Up a Next.js Project with TypeScript
+
+Let's start by creating a new Next.js project with TypeScript:
+
+```bash
+npx create-next-app@latest my-app --typescript
+cd my-app
+```
+
+This command creates a new Next.js project with TypeScript support. The `--typescript` flag tells Next.js to set up the project with TypeScript configuration.
+
+## Project Structure
+
+After creating your project, you'll see a directory structure like this:
+
+```
+my-app/
+├── node_modules/
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx
+│   │   ├── layout.tsx
+│   │   └── globals.css
+├── .eslintrc.json
+├── .gitignore
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+└── tsconfig.json
+```
+
+Let's go through some of the key files and directories:
+
+- **src/app/**: This is where your application code lives. With the App Router, each folder represents a route segment.
+- **src/app/page.tsx**: This is the main page of your application.
+- **src/app/layout.tsx**: This defines the layout that wraps around your pages.
+- **public/**: This directory is used for static assets like images and fonts.
+- **next.config.js**: This file is used to customize the Next.js configuration.
+- **tsconfig.json**: This file contains TypeScript configuration for your project.
+
+## Creating Pages
+
+In Next.js with the App Router, creating a new page is as simple as creating a new directory with a `page.tsx` file. For example, to create an "About" page, you would create a file at `src/app/about/page.tsx`:
+
+```tsx
+export default function AboutPage() {
+  return (
+    <div>
+      <h1>About Us</h1>
+      <p>This is the about page of our Next.js application.</p>
+    </div>
+  );
+}
+```
+
+## Data Fetching
+
+Next.js provides several ways to fetch data for your pages. Here's an example of fetching data in a page component:
+
+```tsx
+async function getData() {
+  const res = await fetch('https://api.example.com/data');
+  
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  
+  return res.json();
+}
+
+export default async function Page() {
+  const data = await getData();
+  
+  return (
+    <div>
+      <h1>Data from API</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+```
+
+## Styling Your Application
+
+Next.js supports various styling methods, including CSS Modules, Sass, and CSS-in-JS libraries. Here's an example of using CSS Modules:
+
+1. Create a CSS file with the `.module.css` extension, e.g., `Button.module.css`:
+
+```css
+.button {
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0051a2;
+}
+```
+
+2. Import and use the styles in your component:
+
+```tsx
+import styles from './Button.module.css';
+
+export default function Button({ children }) {
+  return (
+    <button className={styles.button}>
+      {children}
+    </button>
+  );
+}
+```
+
+## Conclusion
+
+Next.js with TypeScript provides a powerful foundation for building modern web applications. With features like server-side rendering, static site generation, and file-based routing, it simplifies many aspects of web development while maintaining the flexibility and power of React.
+
+In future posts, I'll dive deeper into more advanced Next.js topics like API routes, authentication, and deployment strategies. Stay tuned!
+
+If you have any questions or comments, feel free to reach out to me. 
