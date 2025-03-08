@@ -44,10 +44,17 @@ export async function getPostBySlug(slug: string) {
   try {
     // For server-side rendering, we need to use a relative URL
     // This will work both in development and production
-    const url = `/api/blog/${slug}`;
+    // const url = `/api/blog/${slug}`;
+
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:3000' 
+        : '';
+    const url = baseUrl ? `${baseUrl}/api/blog/${slug}` : `/api/blog/${slug}`;
     
     // Use absolute URL for fetch
-    const response = await fetch(new URL(url, 'http://localhost:3000'), { 
+    const response = await fetch(url, { 
       next: { revalidate: 60 } 
     });
     
