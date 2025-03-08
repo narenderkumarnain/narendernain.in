@@ -55,7 +55,8 @@ export async function getPostBySlug(slug: string) {
     
     // Use absolute URL for fetch
     const response = await fetch(url, { 
-      next: { revalidate: 60 } 
+      next: { revalidate: 60 },
+      credentials: 'include',
     });
     
     if (!response.ok) {
